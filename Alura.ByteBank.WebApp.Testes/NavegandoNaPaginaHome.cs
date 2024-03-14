@@ -19,6 +19,8 @@ namespace Alura.ByteBank.WebApp.Testes
 
             //Assert
             Assert.Contains("WebApp", driver.Title);
+
+            driver.Close();
         }
 
         [Fact]
@@ -33,6 +35,31 @@ namespace Alura.ByteBank.WebApp.Testes
             //Assert
             Assert.Contains("Login", driver.PageSource);
             Assert.Contains("Home", driver.PageSource);
+
+            driver.Close();
+        }
+
+        [Fact]
+        public void LogandoSistema()
+        {
+            //Arrange
+            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+
+            //Act
+            driver.Navigate().GoToUrl("https://localhost:44309/");
+
+            //Assert
+            driver.Manage().Window.Size = new System.Drawing.Size(974, 1050);
+            driver.FindElement(By.LinkText("Login")).Click();
+            driver.FindElement(By.Id("Email")).Click();
+            driver.FindElement(By.Id("Email")).SendKeys("rafael@email.com");
+            driver.FindElement(By.Id("Senha")).Click();
+            driver.FindElement(By.Id("Senha")).SendKeys("senha01");
+            driver.FindElement(By.Id("btn-logar")).Click();
+            driver.FindElement(By.CssSelector(".btn")).Click();
+
+
+            driver.Close();
         }
     }
 }
