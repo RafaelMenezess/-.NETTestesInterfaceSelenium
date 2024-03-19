@@ -1,13 +1,23 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Alura.ByteBank.WebApp.Testes
 {
     public class AposRealizarLogin
     {
+        public ITestOutputHelper SaidaConsoleTeste;
+
+        public AposRealizarLogin(ITestOutputHelper _saidaConsoleTeste)
+        {
+            SaidaConsoleTeste = _saidaConsoleTeste;
+        }
+
         [Fact]
         public void AposRealizarLoginVerificaOpcaoAgenciaMenu()
         {
@@ -115,6 +125,41 @@ namespace Alura.ByteBank.WebApp.Testes
 
             //Assert 
             Assert.Contains("Logout", driver.PageSource);
+        }
+
+        [Fact]
+        public void RealizarLoginAcessaListagemDeContas()
+        {
+            //Arrange
+            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            driver.Navigate().GoToUrl("https://localhost:44309/UsuarioApps/Login");
+            var login = driver.FindElement(By.Name("Email"));
+            var senha = driver.FindElement(By.Name("Senha"));
+            login.SendKeys("rafael@email.com");
+            senha.SendKeys("senha01");
+            driver.FindElement(By.Id("btn-logar")).Click();
+
+            //Conta Corrente
+            driver.FindElement(By.Id("contacorrente")).Click();
+
+            IReadOnlyCollection<IWebElement> elements =
+                driver.FindElements(By.TagName("a"));
+
+            //***IMPRIMINDO TODOS ELEMENTOS NO CONSOLE***
+            //foreach (var element in elements)
+            //{
+            //    SaidaConsoleTeste.WriteLine(element.Text);
+            //}
+
+            var elemento = (from webElemento in elements
+                            where webElemento.Text.Contains("Detalhes")
+                            select webElemento).First();
+
+            //Act
+            elemento.Click();
+
+            //Assert 
+            Assert.Contains("Voltar", driver.PageSource);
         }
     }
 }
