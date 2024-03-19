@@ -8,12 +8,16 @@ namespace Alura.ByteBank.WebApp.Testes
 {
     public class NavegandoNaPaginaHome
     {
+        private IWebDriver driver;
+
+        public NavegandoNaPaginaHome()
+        {
+            driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+        }
+
         [Fact]
         public void CarregaPaginaHomeVerificaTituloPagina()
         {
-            //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-
             //Act
             driver.Navigate().GoToUrl("https://localhost:44309");
 
@@ -26,9 +30,6 @@ namespace Alura.ByteBank.WebApp.Testes
         [Fact]
         public void CarregaPaginaHomeVerificaLoginHome()
         {
-            //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-
             //Act
             driver.Navigate().GoToUrl("https://localhost:44309");
 
@@ -42,9 +43,6 @@ namespace Alura.ByteBank.WebApp.Testes
         [Fact]
         public void LogandoSistema()
         {
-            //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-
             //Act
             driver.Navigate().GoToUrl("https://localhost:44309/");
 
@@ -64,7 +62,6 @@ namespace Alura.ByteBank.WebApp.Testes
         public void Sistema()
         {
             //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));           
             driver.Navigate().GoToUrl("https://localhost:44309/");
 
             var linkLogin = driver.FindElement(By.LinkText("Login"));
@@ -81,9 +78,6 @@ namespace Alura.ByteBank.WebApp.Testes
         [Fact]
         public void AcessarPaginaSemEstarLogado()
         {
-            //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-                        
             //Act
             driver.Navigate().GoToUrl("https://localhost:44309/Agencia/Index");
 
@@ -96,9 +90,6 @@ namespace Alura.ByteBank.WebApp.Testes
         [Fact]
         public void AcessarPaginaSemEstarLogadoVerificaUrl()
         {
-            //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-
             //Act
             driver.Navigate().GoToUrl("https://localhost:44309/Agencia/Index");
 

@@ -1,21 +1,21 @@
 ﻿using Alura.ByteBank.WebApp.Testes.PageObjects;
+using Alura.ByteBank.WebApp.Testes.Utilitarios;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Alura.ByteBank.WebApp.Testes
 {
-    public class AposRealizarLogin
+    public class AposRealizarLogin : IClassFixture<Gerenciador>
     {
+        private IWebDriver driver;
         public ITestOutputHelper SaidaConsoleTeste;
 
-        public AposRealizarLogin(ITestOutputHelper _saidaConsoleTeste)
+        public AposRealizarLogin(Gerenciador gerenciador, ITestOutputHelper _saidaConsoleTeste)
         {
+            driver = gerenciador.Driver;
             SaidaConsoleTeste = _saidaConsoleTeste;
         }
 
@@ -24,8 +24,6 @@ namespace Alura.ByteBank.WebApp.Testes
         {
 
             //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-
             var loginPO = new LoginPO(driver);
             loginPO.Navegar("https://localhost:44309/UsuarioApps/Login");
 
@@ -36,15 +34,11 @@ namespace Alura.ByteBank.WebApp.Testes
             //Assert
             Assert.Contains("Agência", driver.PageSource);
 
-            driver.Close();
         }
 
         [Fact]
         public void TentaLogarSemPreencherDados()
         {
-
-            //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
             //Arrange
             var loginPO = new LoginPO(driver);
@@ -58,15 +52,11 @@ namespace Alura.ByteBank.WebApp.Testes
             Assert.Contains("The Email field is required.", driver.PageSource);
             Assert.Contains("The Senha field is required.", driver.PageSource);
 
-            driver.Close();
         }
 
         [Fact]
         public void SenhaInvalida()
         {
-
-            //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
             //Arrange
             var loginPO = new LoginPO(driver);
@@ -79,15 +69,12 @@ namespace Alura.ByteBank.WebApp.Testes
             //Assert
             Assert.Contains("Login", driver.PageSource);
 
-            driver.Close();
         }
 
         [Fact]
         public void RealizarLoginAcessaMenuECadastraCliente()
         {
             //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-
             var loginPO = new LoginPO(driver);
             loginPO.Navegar("https://localhost:44309/UsuarioApps/Login");
 
@@ -115,15 +102,12 @@ namespace Alura.ByteBank.WebApp.Testes
             //Assert 
             Assert.Contains("Logout", driver.PageSource);
 
-            driver.Close();
         }
 
         [Fact]
         public void RealizarLoginAcessaListagemDeContas()
         {
             //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-
             var loginPO = new LoginPO(driver);
             loginPO.Navegar("https://localhost:44309/UsuarioApps/Login");
 
@@ -152,16 +136,12 @@ namespace Alura.ByteBank.WebApp.Testes
 
             //Assert 
             Assert.Contains("Voltar", driver.PageSource);
-
-            driver.Close();
         }
 
         [Fact]
         public void RealizarLoginAcessaListagemDeContasHomePO()
         {
             //Arrange
-            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-
             var loginPO = new LoginPO(driver);
             loginPO.Navegar("https://localhost:44309/UsuarioApps/Login");
 
@@ -174,8 +154,6 @@ namespace Alura.ByteBank.WebApp.Testes
 
             //Assert
             Assert.Contains("Adicionar Conta-Corrente", driver.PageSource);
-
-            //driver.Close();
         }
     }
 }
