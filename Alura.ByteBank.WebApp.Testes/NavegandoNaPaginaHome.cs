@@ -77,5 +77,36 @@ namespace Alura.ByteBank.WebApp.Testes
 
             driver.Close();
         }
+
+        [Fact]
+        public void AcessarPaginaSemEstarLogado()
+        {
+            //Arrange
+            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                        
+            //Act
+            driver.Navigate().GoToUrl("https://localhost:44309/Agencia/Index");
+
+            //Assert
+            Assert.Contains("401", driver.PageSource);
+
+            driver.Close();
+        }
+
+        [Fact]
+        public void AcessarPaginaSemEstarLogadoVerificaUrl()
+        {
+            //Arrange
+            IWebDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+
+            //Act
+            driver.Navigate().GoToUrl("https://localhost:44309/Agencia/Index");
+
+            //Assert
+            Assert.Contains("https://localhost:44309/Agencia/Index", driver.Url);
+            Assert.Contains("401", driver.PageSource);
+
+            driver.Close();
+        }
     }
 }
